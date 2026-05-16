@@ -1,0 +1,105 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Football fan profile with gamification stats",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "xp": { "type": "number" },
+        "level": { "type": "number" },
+        "credits": { "type": "number" },
+        "streakCount": { "type": "number" },
+        "lastLogin": { "type": "string", "format": "date-time" },
+        "favoriteTeam": { "type": "string" },
+        "clubId": { "type": "string" },
+        "rank": { "type": "string", "enum": ["Bronze", "Silver", "Gold", "Platinum", "Elite", "Legendary"] },
+        "achievements": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["uid", "xp", "level", "streakCount"]
+    },
+    "Match": {
+      "title": "Match",
+      "description": "Football match data",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "homeTeam": { "type": "string" },
+        "awayTeam": { "type": "string" },
+        "competition": { "type": "string" },
+        "startTime": { "type": "string", "format": "date-time" },
+        "status": { "type": "string" },
+        "score": { "type": "object" },
+        "hypeScore": { "type": "number" },
+        "energyScore": { "type": "number" }
+      }
+    },
+    "Prediction": {
+      "title": "Prediction",
+      "description": "User prediction for a match",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "matchId": { "type": "string" },
+        "type": { "type": "string" },
+        "predictedValue": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "correct", "incorrect"] },
+        "pointsEarned": { "type": "number" }
+      },
+      "required": ["userId", "matchId", "type", "predictedValue"]
+    },
+    "Club": {
+      "title": "Club",
+      "description": "Fan club/guild",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "level": { "type": "number" },
+        "xp": { "type": "number" },
+        "members": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Chat message for communities or private rooms",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "roomId": { "type": "string" }
+      },
+      "required": ["authorId", "text", "roomId"]
+    },
+    "ChatRoom": {
+      "title": "ChatRoom",
+      "description": "A public community or private chat room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["public", "private", "club"] },
+        "name": { "type": "string" },
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "lastMessage": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "User profile data" },
+    "/matches/{matchId}": { "schema": "Match", "description": "Match details" },
+    "/predictions/{predictionId}": { "schema": "Prediction", "description": "User predictions" },
+    "/clubs/{clubId}": { "schema": "Club", "description": "Fan clubs" },
+    "/chatRooms/{roomId}": { "schema": "ChatRoom", "description": "Direct or group chat rooms" },
+    "/chatRooms/{roomId}/messages/{messageId}": { "schema": "Message", "description": "Messages within a room" }
+  }
+}

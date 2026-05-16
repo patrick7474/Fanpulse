@@ -1,0 +1,6 @@
+{
+  "name": "FanPulse: AI Football Ecosystem",
+  "description": "A gamified AI-powered football fan platform for tournament engagement, social communities, and real-time match interactions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
